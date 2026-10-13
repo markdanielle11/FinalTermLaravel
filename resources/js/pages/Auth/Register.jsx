@@ -2,6 +2,7 @@ import { Link, useForm } from '@inertiajs/react';
 import Button from '../../components/Button';
 import { Field, TextInput, bind } from '../../components/Form';
 import AuthLayout from '../../layouts/AuthLayout';
+import PasswordInput from '../../components/PasswordInput';
 
 export default function Register() {
     const form = useForm({
@@ -20,7 +21,7 @@ export default function Register() {
     return (
         <AuthLayout
             title="Create account"
-            heading="Create an account"
+            heading="Create your account"
             description="New accounts start as Staff. An Admin can change your role later."
             footer={
                 <>
@@ -41,11 +42,11 @@ export default function Register() {
                 </Field>
 
                 <Field label="Password" htmlFor="password" error={form.errors.password} hint="At least 8 characters.">
-                    <TextInput {...bind(form, 'password')} type="password" autoComplete="new-password" />
+                    <PasswordInput {...bind(form, 'password')} autoComplete="new-password" />
                 </Field>
 
                 <Field label="Confirm password" htmlFor="password_confirmation" error={form.errors.password_confirmation}>
-                    <TextInput {...bind(form, 'password_confirmation')} type="password" autoComplete="new-password" />
+                    <PasswordInput {...bind(form, 'password_confirmation')} autoComplete="new-password" />
                 </Field>
 
                 <Button type="submit" disabled={form.processing} className="w-full">

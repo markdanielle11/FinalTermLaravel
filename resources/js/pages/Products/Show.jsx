@@ -1,6 +1,8 @@
+import { ArrowsDownUpIcon } from '@phosphor-icons/react';
 import { Link } from '@inertiajs/react';
 import { useState } from 'react';
 import Button from '../../components/Button';
+import ColorSwatch from '../../components/ColorSwatch';
 import ConfirmDelete from '../../components/ConfirmDelete';
 import EmptyState from '../../components/EmptyState';
 import PageHeader from '../../components/PageHeader';
@@ -22,7 +24,7 @@ export default function Show({ product, movements }) {
         ['Supplier', product.supplier ? <Link href={`/supplier/suppliers/${product.supplier.id}`} className="text-accent hover:underline">{product.supplier.name}</Link> : 'None'],
         ['Price', formatPeso(product.price)],
         ['Size', product.size || 'None'],
-        ['Color', product.color || 'None'],
+        ['Color', product.color ? <span className="flex items-center gap-2"><ColorSwatch color={product.color} />{product.color}</span> : 'None'],
         ['Low stock at', `${product.low_stock_threshold} units or fewer`],
         ['Last updated', formatDateTime(product.updated_at)],
     ];
@@ -42,7 +44,12 @@ export default function Show({ product, movements }) {
                 description={product.description}
                 actions={
                     <>
-                        {can('adjust stock') && <Button onClick={() => setAdjusting(product)}>Stock in/out</Button>}
+                        {can('adjust stock') && (
+                            <Button onClick={() => setAdjusting(product)}>
+                                <ArrowsDownUpIcon size={16} />
+                                Stock in/out
+                            </Button>
+                        )}
                         {can('edit products') && (
                             <Button variant="secondary" href={`/product/products/${product.id}/edit`}>
                                 Edit
@@ -89,7 +96,7 @@ export default function Show({ product, movements }) {
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[640px] text-left text-sm">
-                            <thead className="text-xs text-ink-3">
+                            <thead className="bg-surface-2/60 text-xs text-ink-3">
                                 <tr className="border-b border-line">
                                     <th className="px-5 py-2.5 font-medium">Date</th>
                                     <th className="px-5 py-2.5 font-medium">Type</th>

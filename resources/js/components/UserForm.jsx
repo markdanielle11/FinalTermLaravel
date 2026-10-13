@@ -1,6 +1,7 @@
 import Button from './Button';
 import { Field, Select, TextInput, bind } from './Form';
 import Panel from './Panel';
+import PasswordInput from './PasswordInput';
 
 const roleHelp = {
     Admin: 'Everything, including managing users and roles.',
@@ -36,10 +37,10 @@ export default function UserForm({ form, onSubmit, roles, submitLabel, cancelHre
                 {!isCreate && <p className="mb-4 text-sm text-ink-2">Leave blank to keep the current password.</p>}
                 <div className="grid gap-4 sm:grid-cols-2">
                     <Field label="Password" htmlFor="password" error={form.errors.password} hint="At least 8 characters." required={isCreate}>
-                        <TextInput {...bind(form, 'password')} type="password" autoComplete="new-password" />
+                        <PasswordInput {...bind(form, 'password')} autoComplete="new-password" />
                     </Field>
                     <Field label="Confirm password" htmlFor="password_confirmation" error={form.errors.password_confirmation} required={isCreate}>
-                        <TextInput {...bind(form, 'password_confirmation')} type="password" autoComplete="new-password" />
+                        <PasswordInput {...bind(form, 'password_confirmation')} autoComplete="new-password" />
                     </Field>
                 </div>
             </Panel>

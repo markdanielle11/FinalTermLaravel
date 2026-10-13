@@ -1,9 +1,10 @@
+import { PlusIcon } from '@phosphor-icons/react';
 import { Link } from '@inertiajs/react';
 import Button from '../../components/Button';
 import ConfirmDelete from '../../components/ConfirmDelete';
 import EmptyState from '../../components/EmptyState';
-import { TextInput } from '../../components/Form';
 import PageHeader from '../../components/PageHeader';
+import SearchInput from '../../components/SearchInput';
 import Pagination from '../../components/Pagination';
 import AppLayout from '../../layouts/AppLayout';
 import { formatNumber } from '../../lib/format';
@@ -19,23 +20,11 @@ export default function Index({ categories, filters: initialFilters }) {
             <PageHeader
                 title="Categories"
                 description="Groups for the product catalog. A category can only be deleted when it has no products."
-                actions={can('create categories') && <Button href="/product-category/product-categories/create">Add category</Button>}
+                actions={can('create categories') && <Button href="/product-category/product-categories/create"><PlusIcon size={16} weight="bold" />Add category</Button>}
             />
 
             <div className="rounded-xl border border-line bg-surface">
-                <div className="border-b border-line p-4">
-                    <label htmlFor="search" className="sr-only">
-                        Search categories
-                    </label>
-                    <TextInput
-                        id="search"
-                        type="search"
-                        placeholder="Search categories"
-                        value={filters.search}
-                        onChange={(event) => set('search', event.target.value)}
-                        className="sm:max-w-xs"
-                    />
-                </div>
+                <SearchInput label="Search categories" placeholder="Search categories" value={filters.search} onChange={(event) => set('search', event.target.value)} className="sm:max-w-xs" />
 
                 {categories.data.length === 0 ? (
                     <EmptyState
@@ -47,14 +36,14 @@ export default function Index({ categories, filters: initialFilters }) {
                                     Clear search
                                 </Button>
                             ) : (
-                                can('create categories') && <Button href="/product-category/product-categories/create">Add category</Button>
+                                can('create categories') && <Button href="/product-category/product-categories/create"><PlusIcon size={16} weight="bold" />Add category</Button>
                             )
                         }
                     />
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[640px] text-left text-sm">
-                            <thead className="text-xs text-ink-3">
+                            <thead className="bg-surface-2/60 text-xs text-ink-3">
                                 <tr className="border-b border-line">
                                     <th className="px-4 py-2.5 font-medium">Name</th>
                                     <th className="px-4 py-2.5 font-medium">Description</th>

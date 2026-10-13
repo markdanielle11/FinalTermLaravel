@@ -1,8 +1,9 @@
 import { Link } from '@inertiajs/react';
 import Button from '../../components/Button';
 import EmptyState from '../../components/EmptyState';
-import { Select, TextInput } from '../../components/Form';
+import { Select } from '../../components/Form';
 import PageHeader from '../../components/PageHeader';
+import SearchInput from '../../components/SearchInput';
 import Pagination from '../../components/Pagination';
 import { MovementBadge } from '../../components/StockBadge';
 import AppLayout from '../../layouts/AppLayout';
@@ -22,18 +23,7 @@ export default function Index({ movements, filters: initialFilters }) {
 
             <div className="rounded-xl border border-line bg-surface">
                 <div className="grid gap-3 border-b border-line p-4 sm:grid-cols-[2fr_1fr_auto]">
-                    <div>
-                        <label htmlFor="search" className="sr-only">
-                            Search by product
-                        </label>
-                        <TextInput
-                            id="search"
-                            type="search"
-                            placeholder="Search product name or SKU"
-                            value={filters.search}
-                            onChange={(event) => set('search', event.target.value)}
-                        />
-                    </div>
+                    <SearchInput label="Search by product" placeholder="Search product name or SKU" value={filters.search} onChange={(event) => set('search', event.target.value)} />
                     <div>
                         <label htmlFor="type" className="sr-only">
                             Movement type
@@ -57,7 +47,7 @@ export default function Index({ movements, filters: initialFilters }) {
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[760px] text-left text-sm">
-                            <thead className="text-xs text-ink-3">
+                            <thead className="bg-surface-2/60 text-xs text-ink-3">
                                 <tr className="border-b border-line">
                                     <th className="px-4 py-2.5 font-medium">Date</th>
                                     <th className="px-4 py-2.5 font-medium">Product</th>

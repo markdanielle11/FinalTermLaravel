@@ -39,7 +39,7 @@ export default function Show({ category, products }) {
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[560px] text-left text-sm">
-                            <thead className="text-xs text-ink-3">
+                            <thead className="bg-surface-2/60 text-xs text-ink-3">
                                 <tr className="border-b border-line">
                                     <th className="px-5 py-2.5 font-medium">Product</th>
                                     <th className="px-5 py-2.5 font-medium">Supplier</th>

@@ -2,6 +2,7 @@ import { Link, useForm } from '@inertiajs/react';
 import Button from '../../components/Button';
 import { Field, TextInput, bind } from '../../components/Form';
 import AuthLayout from '../../layouts/AuthLayout';
+import PasswordInput from '../../components/PasswordInput';
 
 export default function Login() {
     const form = useForm({
@@ -19,8 +20,8 @@ export default function Login() {
     return (
         <AuthLayout
             title="Log in"
-            heading="Log in"
-            description="Use your work account to manage stock."
+            heading="Welcome back"
+            description="Log in to manage products, suppliers, and stock."
             footer={
                 <>
                     No account yet?{' '}
@@ -36,7 +37,7 @@ export default function Login() {
                 </Field>
 
                 <Field label="Password" htmlFor="password" error={form.errors.password}>
-                    <TextInput {...bind(form, 'password')} type="password" autoComplete="current-password" />
+                    <PasswordInput {...bind(form, 'password')} autoComplete="current-password" />
                 </Field>
 
                 <div className="flex items-center justify-between gap-3">

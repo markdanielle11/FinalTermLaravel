@@ -34,6 +34,7 @@
     --warn-soft: #fbf0dc;
     --bad: #b42323;
     --bad-soft: #fbe9e9;
+    --chart: #1f4fd1;
     color-scheme: light;
 }
 
@@ -55,6 +56,7 @@
     --warn-soft: #2a2113;
     --bad: #f08585;
     --bad-soft: #2c1618;
+    --chart: #5b82ea;
     color-scheme: dark;
 }
 
@@ -76,6 +78,7 @@
     --color-warn-soft: var(--warn-soft);
     --color-bad: var(--bad);
     --color-bad-soft: var(--bad-soft);
+    --color-chart: var(--chart);
 }
 
 @layer base {

@@ -1,6 +1,11 @@
+import { MoonIcon, SunIcon } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 
-export default function ThemeToggle({ className = 'px-2.5 py-1.5' }) {
+/**
+ * Switches the "dark" class on <html> and remembers the choice in localStorage.
+ * iconOnly renders a square icon button (used in the app sidebar).
+ */
+export default function ThemeToggle({ className = 'px-2.5 py-1.5', iconOnly = false }) {
     const [dark, setDark] = useState(false);
 
     useEffect(() => {
@@ -18,6 +23,24 @@ export default function ThemeToggle({ className = 'px-2.5 py-1.5' }) {
         }
     };
 
+    const label = dark ? 'Light mode' : 'Dark mode';
+    const Icon = dark ? SunIcon : MoonIcon;
+
+    if (iconOnly) {
+        return (
+            <button
+                type="button"
+                onClick={toggle}
+                aria-pressed={dark}
+                aria-label={label}
+                title={label}
+                className={`grid size-9 place-items-center rounded-lg text-ink-2 hover:bg-surface-2 hover:text-ink ${className}`}
+            >
+                <Icon size={18} />
+            </button>
+        );
+    }
+
     return (
         <button
             type="button"
@@ -25,7 +48,7 @@ export default function ThemeToggle({ className = 'px-2.5 py-1.5' }) {
             aria-pressed={dark}
             className={`rounded-lg text-sm text-ink-2 hover:bg-surface-2 hover:text-ink ${className}`}
         >
-            {dark ? 'Light mode' : 'Dark mode'}
+            {label}
         </button>
     );
 }

@@ -5,6 +5,7 @@ import PageHeader from '../../components/PageHeader';
 import Panel from '../../components/Panel';
 import AppLayout from '../../layouts/AppLayout';
 import useAuth from '../../lib/useAuth';
+import PasswordInput from '../../components/PasswordInput';
 
 /**
  * Both forms submit to routes provided by Fortify. Fortify validates with named
@@ -68,13 +69,13 @@ export default function Edit({ roles }) {
                 <Panel title="Change password">
                     <form onSubmit={savePassword} noValidate className="grid gap-4">
                         <Field label="Current password" htmlFor="password-current_password" error={password.errors.current_password} required>
-                            <TextInput {...field(password, 'current_password')} type="password" autoComplete="current-password" />
+                            <PasswordInput {...field(password, 'current_password')} autoComplete="current-password" />
                         </Field>
                         <Field label="New password" htmlFor="password-password" error={password.errors.password} hint="At least 8 characters." required>
-                            <TextInput {...field(password, 'password')} type="password" autoComplete="new-password" />
+                            <PasswordInput {...field(password, 'password')} autoComplete="new-password" />
                         </Field>
                         <Field label="Confirm new password" htmlFor="password-password_confirmation" error={password.errors.password_confirmation} required>
-                            <TextInput {...field(password, 'password_confirmation')} type="password" autoComplete="new-password" />
+                            <PasswordInput {...field(password, 'password_confirmation')} autoComplete="new-password" />
                         </Field>
                         <div>
                             <Button type="submit" disabled={password.processing}>

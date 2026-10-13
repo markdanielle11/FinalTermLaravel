@@ -1,9 +1,11 @@
+import { PlusIcon } from '@phosphor-icons/react';
 import { Link } from '@inertiajs/react';
 import Button from '../../components/Button';
 import ConfirmDelete from '../../components/ConfirmDelete';
 import EmptyState from '../../components/EmptyState';
-import { Select, TextInput } from '../../components/Form';
+import { Select } from '../../components/Form';
 import PageHeader from '../../components/PageHeader';
+import SearchInput from '../../components/SearchInput';
 import Pagination from '../../components/Pagination';
 import RoleBadge from '../../components/RoleBadge';
 import AppLayout from '../../layouts/AppLayout';
@@ -20,23 +22,12 @@ export default function Index({ users, roles, filters: initialFilters }) {
             <PageHeader
                 title="Users and roles"
                 description="Only Admins can open this page. The route group uses the role:Admin middleware."
-                actions={<Button href="/admin/users/create">Add user</Button>}
+                actions={<Button href="/admin/users/create"><PlusIcon size={16} weight="bold" />Add user</Button>}
             />
 
             <div className="rounded-xl border border-line bg-surface">
                 <div className="grid gap-3 border-b border-line p-4 sm:grid-cols-[2fr_1fr_auto]">
-                    <div>
-                        <label htmlFor="search" className="sr-only">
-                            Search users
-                        </label>
-                        <TextInput
-                            id="search"
-                            type="search"
-                            placeholder="Search name or email"
-                            value={filters.search}
-                            onChange={(event) => set('search', event.target.value)}
-                        />
-                    </div>
+                    <SearchInput label="Search users" placeholder="Search name or email" value={filters.search} onChange={(event) => set('search', event.target.value)} />
                     <div>
                         <label htmlFor="role" className="sr-only">
                             Role
@@ -60,7 +51,7 @@ export default function Index({ users, roles, filters: initialFilters }) {
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[640px] text-left text-sm">
-                            <thead className="text-xs text-ink-3">
+                            <thead className="bg-surface-2/60 text-xs text-ink-3">
                                 <tr className="border-b border-line">
                                     <th className="px-4 py-2.5 font-medium">Name</th>
                                     <th className="px-4 py-2.5 font-medium">Role</th>

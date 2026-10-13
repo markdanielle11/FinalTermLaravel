@@ -1,9 +1,10 @@
+import { PlusIcon } from '@phosphor-icons/react';
 import { Link } from '@inertiajs/react';
 import Button from '../../components/Button';
 import ConfirmDelete from '../../components/ConfirmDelete';
 import EmptyState from '../../components/EmptyState';
-import { TextInput } from '../../components/Form';
 import PageHeader from '../../components/PageHeader';
+import SearchInput from '../../components/SearchInput';
 import Pagination from '../../components/Pagination';
 import AppLayout from '../../layouts/AppLayout';
 import useAuth from '../../lib/useAuth';
@@ -18,23 +19,11 @@ export default function Index({ suppliers, filters: initialFilters }) {
             <PageHeader
                 title="Suppliers"
                 description="Companies that deliver stock. Deleting a supplier keeps its products but leaves them unassigned."
-                actions={can('create suppliers') && <Button href="/supplier/suppliers/create">Add supplier</Button>}
+                actions={can('create suppliers') && <Button href="/supplier/suppliers/create"><PlusIcon size={16} weight="bold" />Add supplier</Button>}
             />
 
             <div className="rounded-xl border border-line bg-surface">
-                <div className="border-b border-line p-4">
-                    <label htmlFor="search" className="sr-only">
-                        Search suppliers
-                    </label>
-                    <TextInput
-                        id="search"
-                        type="search"
-                        placeholder="Search name, contact, or email"
-                        value={filters.search}
-                        onChange={(event) => set('search', event.target.value)}
-                        className="sm:max-w-xs"
-                    />
-                </div>
+                <SearchInput label="Search suppliers" placeholder="Search name, contact, or email" value={filters.search} onChange={(event) => set('search', event.target.value)} className="sm:max-w-xs" />
 
                 {suppliers.data.length === 0 ? (
                     <EmptyState
@@ -46,14 +35,14 @@ export default function Index({ suppliers, filters: initialFilters }) {
                                     Clear search
                                 </Button>
                             ) : (
-                                can('create suppliers') && <Button href="/supplier/suppliers/create">Add supplier</Button>
+                                can('create suppliers') && <Button href="/supplier/suppliers/create"><PlusIcon size={16} weight="bold" />Add supplier</Button>
                             )
                         }
                     />
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[720px] text-left text-sm">
-                            <thead className="text-xs text-ink-3">
+                            <thead className="bg-surface-2/60 text-xs text-ink-3">
                                 <tr className="border-b border-line">
                                     <th className="px-4 py-2.5 font-medium">Supplier</th>
                                     <th className="px-4 py-2.5 font-medium">Contact number</th>
