@@ -12,14 +12,28 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * Demo accounts (password for all: "password"):
+     *   admin@example.com   - Admin
+     *   manager@example.com - Manager
+     *   staff@example.com   - Staff
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call(RolesAndPermissionsSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $accounts = [
+            ['Admin User', 'admin@example.com', 'Admin'],
+            ['Manager User', 'manager@example.com', 'Manager'],
+            ['Staff User', 'staff@example.com', 'Staff'],
+        ];
+
+        foreach ($accounts as [$name, $email, $role]) {
+            User::factory()
+                ->create(['name' => $name, 'email' => $email])
+                ->assignRole($role);
+        }
+
+        $this->call(InventorySeeder::class);
     }
 }
