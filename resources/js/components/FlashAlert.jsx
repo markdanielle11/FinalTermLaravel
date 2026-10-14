@@ -1,5 +1,5 @@
 import { usePage } from '@inertiajs/react';
-import { CheckCircleIcon, WarningCircleIcon } from '@phosphor-icons/react';
+import { CheckCircleIcon, WarningCircleIcon, WarningIcon } from '@phosphor-icons/react';
 import { useEffect, useRef, useState } from 'react';
 
 // Fortify sends short status codes; turn them into readable messages.
@@ -11,11 +11,12 @@ const statusMessages = {
 const tones = {
     success: { title: 'Success', icon: CheckCircleIcon, iconClass: 'bg-ok-soft text-ok' },
     error: { title: 'Something went wrong', icon: WarningCircleIcon, iconClass: 'bg-bad-soft text-bad' },
+    warning: { title: 'Low stock alert', icon: WarningIcon, iconClass: 'bg-warn-soft text-warn' },
 };
 
 /**
  * Pop-up alert for flash messages (redirect()->with('success'|'error', ...) and Fortify's status).
- * Success closes by itself after a few seconds; errors stay until the user clicks OK.
+ * Success closes by itself after a few seconds; errors and low-stock warnings stay until OK.
  * Uses the native <dialog>, so focus, Escape and the backdrop come from the browser.
  */
 export default function FlashAlert() {
@@ -27,8 +28,13 @@ export default function FlashAlert() {
         const status = flash?.status ? statusMessages[flash.status] ?? flash.status : null;
         const message = flash?.error ?? flash?.success ?? status;
 
-        if (message) {
-            setAlert({ message, tone: flash?.error ? 'error' : 'success', key: Date.now() });
+        if (flash?.error) {
+            setAlert({ message: flash.error, tone: 'error', key: Date.now() });
+        } else if (flash?.warning) {
+            // A stock change that left the product low or out of stock.
+            setAlert({ message: flash.warning, detail: message, tone: 'warning', key: Date.now() });
+        } else if (message) {
+            setAlert({ message, tone: 'success', key: Date.now() });
         }
     }, [flash]);
 
@@ -80,6 +86,7 @@ export default function FlashAlert() {
                     <p id="flash-alert-message" className="mt-1.5 text-sm leading-relaxed text-ink-2">
                         {alert.message}
                     </p>
+                    {alert.detail && <p className="mt-2 text-xs text-ink-3">{alert.detail}</p>}
                     <button
                         type="button"
                         autoFocus

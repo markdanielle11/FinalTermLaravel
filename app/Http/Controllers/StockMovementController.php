@@ -101,6 +101,15 @@ class StockMovementController extends Controller
 
         $verb = $validated['type'] === 'in' ? 'added to' : 'removed from';
 
-        return back()->with('success', "{$validated['quantity']} unit(s) {$verb} {$product->name}. New stock: {$product->stock}.");
+        $response = back()->with('success', "{$validated['quantity']} unit(s) {$verb} {$product->name}. New stock: {$product->stock}.");
+
+        // Low-stock alert after the change (shown as a yellow pop-up).
+        if ($product->stock <= 0) {
+            $response->with('warning', "{$product->name} is now out of stock.");
+        } elseif ($product->stock <= $product->low_stock_threshold) {
+            $response->with('warning', "{$product->name} is low on stock: {$product->stock} left (alert at {$product->low_stock_threshold}).");
+        }
+
+        return $response;
     }
 }

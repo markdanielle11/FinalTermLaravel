@@ -15,6 +15,7 @@ import CategoryBars from '../components/CategoryBars';
 import EmptyState from '../components/EmptyState';
 import PageHeader from '../components/PageHeader';
 import Panel from '../components/Panel';
+import StockAlertModal from '../components/StockAlertModal';
 import StockBadge from '../components/StockBadge';
 import AppLayout from '../layouts/AppLayout';
 import { formatDateTime, formatNumber, formatPeso } from '../lib/format';
@@ -159,6 +160,8 @@ export default function Dashboard({ stats, needsAttention, recentMovements, cate
                     </ul>
                 )}
             </Panel>
+
+            <StockAlertModal products={needsAttention} lowCount={stats.low_stock} outCount={stats.out_of_stock} />
         </AppLayout>
     );
 }

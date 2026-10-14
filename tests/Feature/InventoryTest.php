@@ -99,6 +99,30 @@ class InventoryTest extends TestCase
         ]);
     }
 
+    public function test_stock_out_that_reaches_the_threshold_raises_a_low_stock_warning(): void
+    {
+        $product = Product::where('sku', 'TSH-001')->firstOrFail(); // 44 in stock, alert at 10
+
+        $this->actingAs($this->manager)->post('/stock/movements', [
+            'product_id' => $product->id, 'type' => 'out', 'quantity' => 40,
+        ])->assertSessionHas('warning');
+
+        $this->actingAs($this->manager)->post('/stock/movements', [
+            'product_id' => $product->id, 'type' => 'in', 'quantity' => 50,
+        ])->assertSessionMissing('warning');
+    }
+
+    public function test_logging_in_flashes_the_stock_alert_for_the_dashboard(): void
+    {
+        $this->post('/login', ['email' => 'staff@example.com', 'password' => 'password'])
+            ->assertRedirect('/dashboard')
+            ->assertSessionHas('stock_alert', true);
+
+        $this->get('/dashboard')->assertInertia(fn (Assert $page) => $page
+            ->where('flash.stock_alert', true)
+            ->has('needsAttention', 5));
+    }
+
     public function test_category_with_products_cannot_be_deleted(): void
     {
         $category = ProductCategory::has('products')->first();
