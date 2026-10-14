@@ -14,7 +14,7 @@ export default function Edit({ category }) {
     return (
         <AppLayout title={`Edit ${category.name}`}>
             <PageHeader title={`Edit ${category.name}`} />
-            <CategoryForm form={form} onSubmit={submit} submitLabel="Save changes" cancelHref="/product-category/product-categories" />
+            <CategoryForm requireChanges form={form} onSubmit={submit} submitLabel="Save changes" cancelHref="/product-category/product-categories" />
         </AppLayout>
     );
 }

@@ -161,6 +161,7 @@ function NavLink({ item, active }) {
     return (
         <Link
             href={item.href}
+            prefetch
             aria-current={active ? 'page' : undefined}
             className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                 active ? 'bg-accent-soft text-accent' : 'text-ink-2 hover:bg-surface-2 hover:text-ink'

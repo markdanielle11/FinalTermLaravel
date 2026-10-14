@@ -2,7 +2,7 @@ import Button from './Button';
 import { Field, TextInput, bind } from './Form';
 import Panel from './Panel';
 
-export default function SupplierForm({ form, onSubmit, submitLabel, cancelHref }) {
+export default function SupplierForm({ form, onSubmit, submitLabel, cancelHref, requireChanges = false }) {
     return (
         <form onSubmit={onSubmit} noValidate className="grid max-w-2xl gap-6">
             <Panel>
@@ -25,7 +25,7 @@ export default function SupplierForm({ form, onSubmit, submitLabel, cancelHref }
                 </div>
             </Panel>
             <div className="flex flex-wrap gap-2">
-                <Button type="submit" disabled={form.processing}>
+                <Button type="submit" disabled={form.processing || (requireChanges && !form.isDirty)}>
                     {form.processing ? 'Saving...' : submitLabel}
                 </Button>
                 <Button variant="secondary" href={cancelHref}>

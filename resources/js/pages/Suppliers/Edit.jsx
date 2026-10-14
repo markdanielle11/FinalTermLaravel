@@ -20,7 +20,7 @@ export default function Edit({ supplier }) {
     return (
         <AppLayout title={`Edit ${supplier.name}`}>
             <PageHeader title={`Edit ${supplier.name}`} />
-            <SupplierForm form={form} onSubmit={submit} submitLabel="Save changes" cancelHref="/supplier/suppliers" />
+            <SupplierForm requireChanges form={form} onSubmit={submit} submitLabel="Save changes" cancelHref="/supplier/suppliers" />
         </AppLayout>
     );
 }

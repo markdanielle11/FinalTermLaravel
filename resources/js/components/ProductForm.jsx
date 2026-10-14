@@ -87,7 +87,7 @@ export default function ProductForm({ form, onSubmit, categories, suppliers, sub
             </Panel>
 
             <div className="flex flex-wrap gap-2">
-                <Button type="submit" disabled={form.processing}>
+                <Button type="submit" disabled={form.processing || (!isCreate && !form.isDirty)}>
                     {form.processing ? 'Saving...' : submitLabel}
                 </Button>
                 <Button variant="secondary" href={cancelHref}>

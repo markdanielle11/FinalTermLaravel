@@ -27,9 +27,10 @@ const control =
 
 const stateClass = (error) => (error ? 'border-bad' : 'border-line hover:border-ink-3');
 
-export function TextInput({ error, className = '', ...props }) {
+export function TextInput({ error, className = '', ref, ...props }) {
     return (
         <input
+            ref={ref}
             className={`${control} ${stateClass(error)} ${className}`}
             aria-invalid={error ? 'true' : undefined}
             aria-describedby={error && props.id ? `${props.id}-error` : undefined}

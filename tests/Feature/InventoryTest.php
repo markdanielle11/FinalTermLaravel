@@ -153,6 +153,16 @@ class InventoryTest extends TestCase
             ->assertInertia(fn (Assert $page) => $page->has('products.data', 3));
     }
 
+    public function test_products_can_be_sorted_by_stock(): void
+    {
+        $this->actingAs($this->manager)->get('/product/products?sort=stock&direction=desc')
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('products.data.0.name', 'Classic Cotton T-Shirt')
+                ->where('filters.sort', 'stock'));
+
+        $this->actingAs($this->manager)->get('/product/products?sort=password')->assertSessionHasErrors('sort');
+    }
+
     public function test_admin_cannot_remove_own_admin_role_or_delete_self(): void
     {
         $admin = User::role('Admin')->firstOrFail();

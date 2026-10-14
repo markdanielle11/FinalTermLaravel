@@ -24,7 +24,12 @@ class ProductController extends Controller
             'category' => ['nullable', 'integer', 'exists:product_categories,id'],
             'supplier' => ['nullable', 'integer', 'exists:suppliers,id'],
             'status' => ['nullable', Rule::in(['in_stock', 'low_stock', 'out_of_stock'])],
+            'sort' => ['nullable', Rule::in(['name', 'price', 'stock'])],
+            'direction' => ['nullable', Rule::in(['asc', 'desc'])],
         ]);
+
+        $sort = $filters['sort'] ?? 'name';
+        $direction = $filters['direction'] ?? 'asc';
 
         $products = Product::query()
             ->with(['category:id,name', 'supplier:id,name'])
@@ -44,6 +49,7 @@ class ProductController extends Controller
                     'in_stock' => $query->whereColumn('stock', '>', 'low_stock_threshold'),
                 };
             })
+            ->orderBy($sort, $direction)
             ->orderBy('name')
             ->paginate(10)
             ->withQueryString()
@@ -56,6 +62,8 @@ class ProductController extends Controller
                 'category' => $filters['category'] ?? '',
                 'supplier' => $filters['supplier'] ?? '',
                 'status' => $filters['status'] ?? '',
+                'sort' => $sort,
+                'direction' => $direction,
             ],
             'categories' => ProductCategory::orderBy('name')->get(['id', 'name']),
             'suppliers' => Supplier::orderBy('name')->get(['id', 'name']),

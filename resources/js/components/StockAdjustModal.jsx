@@ -76,6 +76,25 @@ export default function StockAdjustModal({ product, onClose }) {
 
                     <Field label="Quantity" htmlFor="quantity" error={form.errors.quantity} required>
                         <TextInput {...bind(form, 'quantity')} type="number" min="1" step="1" inputMode="numeric" autoFocus />
+                        <div className="flex flex-wrap gap-1.5" aria-label="Quick amounts">
+                            {[1, 5, 10, 25].map((amount) => (
+                                <button
+                                    key={amount}
+                                    type="button"
+                                    onClick={() => {
+                                        form.setData('quantity', String(amount));
+                                        form.clearErrors('quantity');
+                                    }}
+                                    className={`rounded-md border px-2.5 py-1 text-xs font-medium tabular-nums transition-colors ${
+                                        String(form.data.quantity) === String(amount)
+                                            ? 'border-accent bg-accent-soft text-accent'
+                                            : 'border-line text-ink-2 hover:bg-surface-2 hover:text-ink'
+                                    }`}
+                                >
+                                    {amount}
+                                </button>
+                            ))}
+                        </div>
                     </Field>
 
                     <Field label="Note" htmlFor="note" error={form.errors.note} hint="Optional, for example: delivery from supplier, sold, damaged.">
