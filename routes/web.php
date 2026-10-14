@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-// Public landing page.
+// No public landing page: an inventory system opens straight to the login
+// screen, or to the dashboard when the user is already signed in.
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return redirect()->route(Auth::check() ? 'dashboard' : 'login');
 })->name('home');
 
 Route::middleware('auth')->group(function () {

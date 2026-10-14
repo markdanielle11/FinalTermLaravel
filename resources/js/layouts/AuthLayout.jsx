@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import BrandMark from '../components/BrandMark';
-import FlashToast from '../components/FlashToast';
+import FlashAlert from '../components/FlashAlert';
 import ThemeToggle from '../components/ThemeToggle';
 
 /**
@@ -66,7 +66,7 @@ export default function AuthLayout({ title, heading, description, children, foot
                 </aside>
             </div>
 
-            <FlashToast />
+            <FlashAlert />
         </>
     );
 }

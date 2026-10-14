@@ -36,7 +36,7 @@ class AccessControlTest extends TestCase
 
     public function test_public_and_auth_pages_render_react_components(): void
     {
-        $this->get('/')->assertInertia(fn (Assert $page) => $page->component('Welcome'));
+        $this->get('/')->assertRedirect('/login');
         $this->get('/login')->assertInertia(fn (Assert $page) => $page->component('Auth/Login'));
         $this->get('/register')->assertInertia(fn (Assert $page) => $page->component('Auth/Register'));
         $this->get('/forgot-password')->assertInertia(fn (Assert $page) => $page->component('Auth/ForgotPassword'));
@@ -71,6 +71,11 @@ class AccessControlTest extends TestCase
         $this->from('/login')->post('/login', ['email' => 'admin@example.com', 'password' => 'wrong'])
             ->assertRedirect('/login')
             ->assertSessionHasErrors('email');
+    }
+
+    public function test_home_sends_signed_in_users_to_the_dashboard(): void
+    {
+        $this->actingAs($this->user('Staff'))->get('/')->assertRedirect('/dashboard');
     }
 
     public function test_admin_can_open_every_page(): void

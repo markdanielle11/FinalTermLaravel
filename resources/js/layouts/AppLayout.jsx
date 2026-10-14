@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 import Avatar from '../components/Avatar';
 import BrandMark from '../components/BrandMark';
-import FlashToast from '../components/FlashToast';
+import FlashAlert from '../components/FlashAlert';
 import RoleBadge from '../components/RoleBadge';
 import ThemeToggle from '../components/ThemeToggle';
 import useAuth from '../lib/useAuth';
@@ -150,7 +150,7 @@ export default function AppLayout({ title, children }) {
                 </main>
             </div>
 
-            <FlashToast />
+            <FlashAlert />
         </>
     );
 }
