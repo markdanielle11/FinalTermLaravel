@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react';
 import Button from '../../components/Button';
 import EmptyState from '../../components/EmptyState';
-import { Select } from '../../components/Form';
+import { Select, TextInput } from '../../components/Form';
 import PageHeader from '../../components/PageHeader';
 import SearchInput from '../../components/SearchInput';
 import Pagination from '../../components/Pagination';
@@ -22,7 +22,7 @@ export default function Index({ movements, filters: initialFilters }) {
             <PageHeader title="Stock history" description="Every stock in and stock out, newest first. To record a movement, use Stock in/out on a product." />
 
             <div className="rounded-xl border border-line bg-surface">
-                <div className="grid gap-3 border-b border-line p-4 sm:grid-cols-[2fr_1fr_auto]">
+                <div className="grid gap-3 border-b border-line p-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto]">
                     <SearchInput label="Search by product" placeholder="Search product name or SKU" value={filters.search} onChange={(event) => set('search', event.target.value)} />
                     <div>
                         <label htmlFor="type" className="sr-only">
@@ -34,6 +34,24 @@ export default function Index({ movements, filters: initialFilters }) {
                             <option value="out">Stock out only</option>
                         </Select>
                     </div>
+                    <label className="flex items-center gap-2 text-sm text-ink-3">
+                        From
+                        <TextInput
+                            type="date"
+                            value={filters.from}
+                            max={filters.to || undefined}
+                            onChange={(event) => set('from', event.target.value)}
+                        />
+                    </label>
+                    <label className="flex items-center gap-2 text-sm text-ink-3">
+                        To
+                        <TextInput
+                            type="date"
+                            value={filters.to}
+                            min={filters.from || undefined}
+                            onChange={(event) => set('to', event.target.value)}
+                        />
+                    </label>
                     <Button variant="ghost" onClick={reset} disabled={!active}>
                         Clear
                     </Button>
@@ -43,7 +61,7 @@ export default function Index({ movements, filters: initialFilters }) {
                     {movements.data.length === 0 ? (
                         <EmptyState
                             title={active ? 'No records match these filters' : 'No stock movements yet'}
-                            description={active ? 'Try another product or type.' : 'Records appear here after the first stock in or out.'}
+                            description={active ? 'Try another product, type, or date range.' : 'Records appear here after the first stock in or out.'}
                         />
                     ) : (
                         <div className="overflow-x-auto">
