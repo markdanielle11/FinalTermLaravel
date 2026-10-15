@@ -94,5 +94,22 @@ php artisan test
 
 ## Contributors
 
-- Mark Danielle Mendoza
-- Lester Salvador
+### Development
+
+**Mark Danielle Mendoza**
+- Project setup: Laravel 13, React and Inertia, database design and migrations
+- Authentication with Fortify (login, register, password reset, profile)
+- CRUD for products, categories, suppliers and users
+- Dashboard and stock alerts
+- Website design and user interface
+
+**Lester Salvador**
+- Stock in/out and stock history
+- Search and filters on the product list
+- Date range filter on stock history, with its test
+- Roles and permissions with Spatie (Admin, Manager, Staff)
+- README and setup documentation
+
+Lester's earlier work was sent to Mark, who uploaded the whole project to GitHub
+from his account, so most commits appear under Mark's name. Lester's later
+changes were committed from his own account.
