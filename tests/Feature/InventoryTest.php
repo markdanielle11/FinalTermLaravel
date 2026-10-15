@@ -4,10 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\StockMovement;
 use App\Models\Supplier;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
@@ -151,6 +153,32 @@ class InventoryTest extends TestCase
 
         $this->actingAs($this->manager)->get('/product/products?search=jacket')
             ->assertInertia(fn (Assert $page) => $page->has('products.data', 3));
+    }
+
+    public function test_stock_history_can_be_filtered_by_date(): void
+    {
+        StockMovement::query()->delete();
+        $product = Product::first();
+
+        // One movement on Oct 1 and one on Oct 10 (10:00 AM Philippine time = 02:00 UTC).
+        foreach (['2026-10-01 02:00:00', '2026-10-10 02:00:00'] as $time) {
+            $this->travelTo(Carbon::parse($time, 'UTC'));
+            $this->actingAs($this->manager)->post('/stock/movements', [
+                'product_id' => $product->id, 'type' => 'in', 'quantity' => 1,
+            ])->assertSessionHasNoErrors();
+        }
+        $this->travelBack();
+
+        $this->actingAs($this->manager)->get('/stock/movements?from=2026-10-05')
+            ->assertInertia(fn (Assert $page) => $page->has('movements.data', 1)->where('filters.from', '2026-10-05'));
+
+        $this->actingAs($this->manager)->get('/stock/movements?to=2026-10-05')
+            ->assertInertia(fn (Assert $page) => $page->has('movements.data', 1));
+
+        $this->actingAs($this->manager)->get('/stock/movements?from=2026-10-01&to=2026-10-10')
+            ->assertInertia(fn (Assert $page) => $page->has('movements.data', 2));
+
+        $this->actingAs($this->manager)->get('/stock/movements?from=yesterday')->assertSessionHasErrors('from');
     }
 
     public function test_products_can_be_sorted_by_stock(): void
