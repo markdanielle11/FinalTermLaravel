@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\StockMovement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -15,12 +16,15 @@ class StockMovementController extends Controller
 {
     /**
      * Stock history (audit trail) for all products.
+     * Can be narrowed by product, type (in/out), and a date range.
      */
     public function index(Request $request): Response
     {
         $filters = $request->validate([
             'search' => ['nullable', 'string', 'max:100'],
             'type' => ['nullable', Rule::in(['in', 'out'])],
+            'from' => ['nullable', 'date_format:Y-m-d'],
+            'to' => ['nullable', 'date_format:Y-m-d'],
         ]);
 
         $movements = StockMovement::query()
@@ -32,6 +36,14 @@ class StockMovementController extends Controller
                 });
             })
             ->when($filters['type'] ?? null, fn ($query, $type) => $query->where('type', $type))
+            // The dates are picked in Philippine time, but the database stores UTC,
+            // so each date is turned into the start or end of that day in UTC.
+            ->when($filters['from'] ?? null, fn ($query, $from) => $query->where(
+                'created_at', '>=', Carbon::parse($from, 'Asia/Manila')->startOfDay()->utc()
+            ))
+            ->when($filters['to'] ?? null, fn ($query, $to) => $query->where(
+                'created_at', '<=', Carbon::parse($to, 'Asia/Manila')->endOfDay()->utc()
+            ))
             ->latest()
             ->latest('id')
             ->paginate(15)
@@ -53,6 +65,8 @@ class StockMovementController extends Controller
             'filters' => [
                 'search' => $filters['search'] ?? '',
                 'type' => $filters['type'] ?? '',
+                'from' => $filters['from'] ?? '',
+                'to' => $filters['to'] ?? '',
             ],
         ]);
     }
