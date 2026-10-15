@@ -1,58 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+FinalTermLaravel: Apparel Inventory System
+An inventory system for an apparel shop, built for INTECH 3112 at Central Luzon State University (BSIT 3-3).
+It is our first term project (an apparel inventory system in plain PHP and MySQL) rebuilt in Laravel 13 with a React frontend.
+Features
+Authentication with Laravel Fortify: register, login, logout, forgot and reset password, profile and password updates
+Role-based access with Spatie Laravel Permission: Admin, Manager, and Staff
+CRUD for products, categories, suppliers, and users
+Stock in/out with a full stock history (who made each change, quantity before and after)
+Low-stock alerts, with a per-product alert level and a summary after login
+Search, filters, sorting, and pagination on lists, including a date range filter on stock history
+Dashboard with stock totals, stock value, items that need restocking, and units by category
+Light and dark mode
+Tech stack
+Part	Technology
+Backend	Laravel 13 (PHP 8.3+)
+Frontend	React 19 with Inertia.js
+Styling	Tailwind CSS 4
+Authentication	Laravel Fortify
+Roles and permissions	Spatie Laravel Permission
+Database	MySQL (XAMPP)
+Roles
+Permission	Admin	Manager	Staff
+View dashboard, products, categories, suppliers	Yes	Yes	Yes
+Create, edit, delete products, categories, suppliers	Yes	Yes	No
+Stock in/out and view stock history	Yes	Yes	Yes
+Manage users and roles	Yes	No	No
+New accounts created through the register page start as Staff. An Admin can change their role from Users and roles.
+Setup
+Requirements: PHP 8.3 or newer, Composer, Node.js, and MySQL (XAMPP).
+Clone the repository and open the folder:
 ```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   git clone https://github.com/markdanielle11/FinalTermLaravel.git
+   cd FinalTermLaravel
+   ```
+Install the PHP packages:
+```
+   composer install
+   ```
+Create the environment file and app key:
+```
+   copy .env.example .env
+   php artisan key:generate
+   ```
+Start MySQL in XAMPP and create an empty database named `finalterm_inventory` in phpMyAdmin.
+In `.env`, set the database settings:
+```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=finalterm_inventory
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+Create the tables and sample data, then install the JavaScript packages:
+```
+   php artisan migrate --seed
+   npm install
+   ```
+Run the app and open http://localhost:8000:
+```
+   composer run dev
+   ```
+To reset the sample data at any time, run `php artisan migrate:fresh --seed`.
+Demo accounts
+The password for all accounts is `password`.
+Email	Role
+admin@example.com	Admin
+manager@example.com	Manager
+staff@example.com	Staff
+Running the tests
+```
+php artisan test
+```
+Contributors
+Mark Danielle Mendoza
+Lester Salvador
